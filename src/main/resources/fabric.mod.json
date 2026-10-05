@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_name}",
+  "version": "${version}",
+  "name": "${project_name}",
+  "description": "헌터 템플릿 모드",
+  "authors": [ "코사인" ],
+  "contact": {},
+  "license": "All Rights Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "kr.cosine.swamp.hunter.mod.template.HunterModTemplateClient"
+    ],
+    "main": [
+      "kr.cosine.swamp.hunter.mod.template.HunterModTemplate"
+    ]
+  },
+  "mixins": [
+    "huntermodtemplate.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric-api": ">=${fabric_api_version}",
+    "minecraft": "${minecraft_version}"
+  }
+}
