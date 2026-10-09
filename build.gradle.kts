@@ -14,11 +14,19 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(25)
 }
 
+repositories {
+    maven("https://maven.wispforest.io/releases/")
+    maven("https://jitpack.io")
+}
+
 dependencies {
     minecraft("com.mojang:minecraft:${getProperty("minecraft_version")}")
     implementation("net.fabricmc:fabric-loader:${getProperty("fabric_loader_version")}")
     implementation("net.fabricmc:fabric-language-kotlin:${getProperty("kotlin_loader_version")}")
     implementation("net.fabricmc.fabric-api:fabric-api:${getProperty("fabric_api_version")}")
+    implementationWithInclude("io.github.classgraph:classgraph:${getProperty("classgraph_version")}")
+    implementationWithInclude("net.bytebuddy:byte-buddy:${getProperty("byte_buddy_version")}")
+    implementationWithInclude("net.bytebuddy:byte-buddy-agent:${getProperty("byte_buddy_version")}")
 }
 
 tasks.processResources {
@@ -48,18 +56,8 @@ tasks {
     jar {
         archiveBaseName.set(getProperty("mod_name"))
     }
-    register<Copy>("buildServer") {
-        group = "1. build"
-        dependsOn(jar)
-        from(jar)
-        into("D:\\서버\\26.3 - 헌터\\mods")
-    }
-    register<Copy>("buildClient") {
-        group = "1. build"
-        dependsOn(jar)
-        from(jar)
-        into("C:\\Users\\rhdwl\\AppData\\Roaming\\PrismLauncher\\instances\\26.3 - 헌터\\minecraft\\mods")
-    }
+    registerCopy("buildServer", "D:\\서버\\26.3 - 헌터\\mods")
+    registerCopy("buildClient", "C:\\Users\\rhdwl\\AppData\\Roaming\\PrismLauncher\\instances\\26.3 - 헌터\\minecraft\\mods")
     withType<JavaCompile>().configureEach {
         options.encoding = "UTF-8"
         options.release.set(25)
@@ -80,4 +78,18 @@ publishing {
 
 fun getProperty(path: String): String {
     return property(path) as? String ?: throw IllegalArgumentException()
+}
+
+fun TaskContainer.registerCopy(name: String, path: String) {
+    register<Copy>(name) {
+        group = "1. build"
+        dependsOn(jar)
+        from(jar)
+        into(path)
+    }
+}
+
+fun DependencyHandlerScope.implementationWithInclude(path: String) {
+    implementation(path)
+    include(path)
 }

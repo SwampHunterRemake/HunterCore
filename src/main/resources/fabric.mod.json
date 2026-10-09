@@ -3,21 +3,24 @@
   "id": "${mod_name}",
   "version": "${version}",
   "name": "${project_name}",
-  "description": "헌터 템플릿 모드",
+  "description": "헌터 코어 모드",
   "authors": [ "코사인" ],
   "contact": {},
   "license": "All Rights Reserved",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "kr.cosine.swamp.hunter.mod.template.HunterModTemplateClient"
-    ],
     "main": [
-      "kr.cosine.swamp.hunter.mod.template.HunterModTemplate"
+      "kr.cosine.swamp.hunter.mod.core.common.HunterCore"
+    ],
+    "client": [
+      "kr.cosine.swamp.hunter.mod.core.client.HunterCoreClient"
+    ],
+    "server": [
+      "kr.cosine.swamp.hunter.mod.core.server.HunterCoreServer"
     ]
   },
   "mixins": [
-    "huntermodtemplate.mixins.json"
+    "huntercore.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
